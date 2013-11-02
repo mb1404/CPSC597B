@@ -38,24 +38,7 @@ class table:
         
         
         
-    #delete column (works, but needs a lot of work for consistency and to preserve constraints)
-    def deleteCol(self,dCol):
-        global dbName
-        global tableName
-        conn = sqlite3.connect(dbName)
-        c = conn.cursor()
-        
-        colNames = self.getColNames()
-        colNames.remove(dCol)
-        
-        newTableCol =  ', '.join(colNames)
-        
-        c.execute("CREATE TEMPORARY TABLE t1_backup(%s);" %newTableCol)
-        c.execute("INSERT INTO t1_backup SELECT %s FROM %s;" %(newTableCol,tableName))
-        c.execute("DROP TABLE %s;" %tableName)
-        c.execute("CREATE TABLE %s(%s);" %(tableName,newTableCol))
-        c.execute("INSERT INTO %s SELECT %s FROM t1_backup;" %(tableName,newTableCol))
-        c.execute("DROP TABLE t1_backup;")
+   
 
    
     #get column names
