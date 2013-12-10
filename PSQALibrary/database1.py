@@ -13,10 +13,6 @@ class database1:
         #dbName = "%s" %databaseName;
         
         
-    def testobj(self):
-        return "hi";
-        
-        
     # create a table
     # the table must have at least one column with its type
     # other columns are optional and must be provided as a list of lists
@@ -30,13 +26,15 @@ class database1:
         c = conn.cursor()
         q = "create table %s (" %(tableName)
         
-        if tableName in self.getTablesNames():
-            return "Error, The table already exists";
+        """if tableName in self.getTablesNames():
+            return "Error, The table already exists";"""
     
-        
         if colList:
             for col in colList:
                 if (col[1] != "INTEGER") and (col[4] == "True"):
+                    return "Error, AUTOINCREMENT is only allowed on an INTEGER PRIMARY KEY";
+                
+                if (col[1] == "INTEGER") and (col[4] == "True") and (col[5] == "False"):
                     return "Error, AUTOINCREMENT is only allowed on an INTEGER PRIMARY KEY";
                 
                 q = q + "%s %s " %(col[0],col[1])  #col name and type
@@ -57,8 +55,11 @@ class database1:
              q = q + ");"
         
         q = q.replace(",);",");")
-        c.execute(q) 
-        return q
+        try:
+            c.execute(q) 
+            return "The Table was created succesfully"
+        except Exception as e:
+            return "Error: %s" %e
         
     #drop a table
     def dropTable(self,tableName):
@@ -66,21 +67,47 @@ class database1:
         conn = sqlite3.connect(dbName)
         c = conn.cursor()
         q = "drop table if exists %s;" %(tableName);
-        c.execute(q);
-        return q
+        
+        try:
+            c.execute(q) 
+            return "The Table was dropped succesfully"
+        except Exception as e:
+            return "Error: %s" %e
+
         
     # return a list of the database table names 
     def getTablesNames(self):
         global dbName
         conn = sqlite3.connect(dbName)
         c = conn.cursor()
-        c.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        c.execute("SELECT name FROM sqlite_master WHERE type='table' and name != 'sqlite_sequence' order by name;")
         result = c.fetchall()
         tablesNamesList = []
         for r in result:
             tablesNamesList.append(r[0])
             
         return tablesNamesList
+        
+    # is valid sqlite database
+    def isValidSQliteDatase(self):
+        global dbName
+        conn = sqlite3.connect(dbName)
+        c = conn.cursor()
+        try:
+            c.execute("SELECT name FROM sqlite_master WHERE type='table';")
+            return True
+        except Exception as e:
+            return False
+        
+        return tablesNamesList
+     
+    #check if a table exist in the database
+    def doesTableExist(self,tableName):
+        AllTableNames = self.getTablesNames()
+        if tableName in AllTableNames:
+            return True
+        else:
+            return False
         
         
     #execute SQL Query

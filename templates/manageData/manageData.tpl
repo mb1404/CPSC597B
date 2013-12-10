@@ -105,6 +105,7 @@
               </li>
               <li><a href="/createdb">Create New Database</a></li>
               <li><a href="/dropdb">Drop Database</a></li>
+              <li><a href="/uploadDB">Upload Database</a></li>
               <li><a href="/SQLiteDatabases/{{choosenDB}}">Download Database</a></li>
             </ul>
           </div><!--/.well -->
@@ -115,6 +116,15 @@
               <li ><a href="/database/{{choosenDB}}/createTable">Create Table</a></li>
               <li><a href="/database/{{choosenDB}}/dropTable">Drop Table</a></li>
               <li><a href="/database/{{choosenDB}}/manageTable/frontPage">Manage Table</a></li>
+              
+              <li class="nav-header">Index</li>
+              <li><a href="/database/{{choosenDB}}/createIndex">Create Index</a></li>
+              <li><a href="/database/{{choosenDB}}/dropIndex">Drop Index</a></li>
+
+              <li class="nav-header">Views</li>
+              <li><a href="/database/{{choosenDB}}/createView">Create View</a></li>
+              <li><a href="/database/{{choosenDB}}/manageView">Manage View</a></li>
+              
               <li class="nav-header">Data</li>
               <li class="active"><a href="frontPage">Manage Data</a>
                  <ul class="nav nav-list">
@@ -132,8 +142,8 @@
                 </ul>
               </li>
               <li><a href="/database/{{choosenDB}}/SQLQuery">SQL query</a></li>
-              <li><a href="#">Export Data</a></li>
-              <li><a href="#">Import Data</a></li>
+              <li><a href="/database/{{choosenDB}}/exportData">Export Data</a></li>
+              <li><a href="/database/{{choosenDB}}/importData">Import Data</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
@@ -141,7 +151,7 @@
         
         <div class="span9">
           <div class="hero-unit" style="background:#eeeeee;padding: 10px;">
-            <center><h2><span style="color:blue;">{{choosenDB}}/{{tableName}}</span> - Manage Table</h2></center>
+            <center><h2>Manage Table</h2></center>
             </div>
           <div class="row-fluid">
             <div class="span12">
@@ -153,6 +163,7 @@
                           <th>{{colName}}</th>
                         %end
                         
+                        <th>Update</th>
                         <th>Delete</th>
                     </tr>
                   </thead>
@@ -164,7 +175,7 @@
                             %for data in datalist:
                                 <td>{{data}}</td>
                             %end
-                            
+                            <td><a class="btn" href="/database/{{choosenDB}}/manageData/{{tableName}}/editRow/{{rowID}}"> <i class="icon-edit"></i></a></td>
                             <td><a class="btn" href="?deleteCol={{rowID}}"> <i class="icon-trash"></i></a></td>
                         </tr>
                      %end

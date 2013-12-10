@@ -76,7 +76,8 @@
                 </select>
                 </li>
                 <li><a href="/createdb">Create New Database</a></li>
-              <li class="active"><a href="/dropdb">Drop Database</a></li>
+                <li class="active"><a href="/dropdb">Drop Database</a></li>
+                <li><a href="/uploadDB">Upload Database</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->

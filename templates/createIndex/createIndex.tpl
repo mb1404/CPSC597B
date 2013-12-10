@@ -6,10 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 
     <!-- Le styles -->
-    <link href="../../static/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <script src="../../static/bootstrap/js/jquery-1.10.2.min.js"></script>
+    <link href="../../../static/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="../../../static/bootstrap/js/jquery-1.10.2.min.js"></script>
 
     <style type="text/css">
       body {
@@ -29,7 +33,7 @@
         }
       }
     </style>
-    <link href="../../static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="../../../static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 
     <script>
         //the following javascrip function is used to redirect to the database page after a database is chosen
@@ -42,6 +46,25 @@
               return false;
           });
         });
+        
+       /* $(document).ready(function(){
+          $("#displayDIV").click(function(){
+            $("#addColDIV").show();
+          });
+        });*/
+
+        
+        //this function will validate the form
+        /*function validateForm(){
+            var cn=document.forms["addColForm"]["ColName"].value;
+            if (cn==null || cn==""){
+              alert("Column name must be filled out");
+                return false;
+            }
+        }*/
+        
+        
+        
     </script>
     
   </head>
@@ -78,6 +101,7 @@
                         <option value="/database/{{name}}">{{name}}</option>
                     %end
                   %end
+                  
                 </select>
               </li>
               <li><a href="/createdb">Create New Database</a></li>
@@ -90,12 +114,12 @@
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Tables</li>
-              <li class="active"><a href="/database/{{choosenDB}}/createTable">Create Table</a></li>
+              <li><a href="/database/{{choosenDB}}/createTable">Create Table</a></li>
               <li><a href="/database/{{choosenDB}}/dropTable">Drop Table</a></li>
               <li><a href="/database/{{choosenDB}}/manageTable/frontPage">Manage Table</a></li>
               
               <li class="nav-header">Index</li>
-              <li><a href="/database/{{choosenDB}}/createIndex">Create Index</a></li>
+              <li class="active"><a href="/database/{{choosenDB}}/createIndex">Create Index</a></li>
               <li><a href="/database/{{choosenDB}}/dropIndex">Drop Index</a></li>
 
               <li class="nav-header">Views</li>
@@ -103,7 +127,7 @@
               <li><a href="/database/{{choosenDB}}/manageView">Manage View</a></li>
               
               <li class="nav-header">Data</li>
-              <li><a href="/database/{{choosenDB}}/manageData/frontPage">Manage Data</a></li>
+              <li><a href="manageData/frontPage">Manage Data</a></li>
               <li><a href="/database/{{choosenDB}}/SQLQuery">SQL query</a></li>
               <li><a href="/database/{{choosenDB}}/exportData">Export Data</a></li>
               <li><a href="/database/{{choosenDB}}/importData">Import Data</a></li>
@@ -114,17 +138,57 @@
         
         <div class="span9">
           <div class="hero-unit" style="background:#eeeeee;padding: 10px;">
-            <center><h2>Create Table</h2></center>
+            <center><h2>Create Index</h2></center>
             </div>
           <div class="row-fluid">
             <div class="span12">
-              %if "Error" in message:
-                <span style="color:red">{{message}}</span>  
-              %else:
-                <span style="color:green">{{message}}</span>  
-              %end
+                
+                <form name="createTableForm" class="form-inline" onsubmit="return validateForm()">
+                    
+                    <table cellpadding="15">
+                        <fieldset>
+                        <tr>
+                            <td>
+                                <label>Table</label>
+                            </td>
+                            <td>
+                                <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" class="input-medium" name="tableN">
+                                  <option value="#"></option>
+                                  %for tableName in tablesList:
+                                    <option value="/database/{{choosenDB}}/createIndex/{{tableName}}">{{tableName}}</option>
+                                  %end
+                                </select>
+                            </td>
+                        </tr>   
+                            
+                            
+                        <tr>
+                            <td>
+                                <label>Index Name</label>
+                            </td>
+                            <td>
+                                <input type="text" class="input-medium" name="IndexName">
+                            </td>
+                        </tr>
+                        
+                       
+                        
+                        <tr>
+                            <td>
+                                <button type="submit" class="btn" name = "create_index_btn" value="create" disabled>Create Index</button>
+                            </td>
+                        </tr>
+                        </fieldset>
+                    
+                    </table>
+
+               
+               
+                </form>  
+                
             </div><!--/span-->
           </div><!--/row-->
+          
         </div><!--/span-->
       </div><!--/row-->
 
@@ -137,8 +201,8 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="../../static/bootstrap/js/jquery.js"></script>
-    <script src="../../static/bootstrap/js/bootstrap.js"></script>
-    <script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../../static/bootstrap/js/jquery.js"></script>
+    <script src="../../../static/bootstrap/js/bootstrap.js"></script>
+    <script src="../../../static/bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>

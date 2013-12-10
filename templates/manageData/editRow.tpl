@@ -6,10 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 
     <!-- Le styles -->
-    <link href="../../static/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <script src="../../static/bootstrap/js/jquery-1.10.2.min.js"></script>
+    <link href="../../../../../static/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="../../../../../static/bootstrap/js/jquery-1.10.2.min.js"></script>
 
     <style type="text/css">
       body {
@@ -29,7 +33,7 @@
         }
       }
     </style>
-    <link href="../../static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="../../../../../static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 
     <script>
         //the following javascrip function is used to redirect to the database page after a database is chosen
@@ -42,6 +46,25 @@
               return false;
           });
         });
+        
+       /* $(document).ready(function(){
+          $("#displayDIV").click(function(){
+            $("#addColDIV").show();
+          });
+        });*/
+
+        
+        //this function will validate the form
+        /*function validateForm(){
+            var cn=document.forms["addColForm"]["ColName"].value;
+            if (cn==null || cn==""){
+              alert("Column name must be filled out");
+                return false;
+            }
+        }*/
+        
+        
+        
     </script>
     
   </head>
@@ -90,7 +113,7 @@
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Tables</li>
-              <li class="active"><a href="/database/{{choosenDB}}/createTable">Create Table</a></li>
+              <li ><a href="/database/{{choosenDB}}/createTable">Create Table</a></li>
               <li><a href="/database/{{choosenDB}}/dropTable">Drop Table</a></li>
               <li><a href="/database/{{choosenDB}}/manageTable/frontPage">Manage Table</a></li>
               
@@ -103,7 +126,21 @@
               <li><a href="/database/{{choosenDB}}/manageView">Manage View</a></li>
               
               <li class="nav-header">Data</li>
-              <li><a href="/database/{{choosenDB}}/manageData/frontPage">Manage Data</a></li>
+              <li class="active"><a href="/database/{{choosenDB}}/manageData/frontPage">Manage Data</a>
+                 <ul class="nav nav-list">
+                    %if tablesList:
+                        %for tableN in tablesList:
+                            %if tableName == tableN :
+                                <li><a href="../../{{tableN}}" style="color:black;">- {{tableN}}</a></li>
+                            %else:
+                                <li><a href="../../{{tableN}}" style="color:brown;">- {{tableN}}</a></li>
+                            %end
+                        %end
+                    %else:
+                        <li>- No tables</a></li>
+                    %end
+                </ul>
+              </li>
               <li><a href="/database/{{choosenDB}}/SQLQuery">SQL query</a></li>
               <li><a href="/database/{{choosenDB}}/exportData">Export Data</a></li>
               <li><a href="/database/{{choosenDB}}/importData">Import Data</a></li>
@@ -114,17 +151,47 @@
         
         <div class="span9">
           <div class="hero-unit" style="background:#eeeeee;padding: 10px;">
-            <center><h2>Create Table</h2></center>
+            <center><h2>Update Data</h2></center>
             </div>
           <div class="row-fluid">
             <div class="span12">
-              %if "Error" in message:
-                <span style="color:red">{{message}}</span>  
-              %else:
-                <span style="color:green">{{message}}</span>  
-              %end
+              
+              <form name="insertRow" class="form-inline">
+                
+                %for colData in rowData:
+                    <table cellpadding="15">
+                        <tr>
+                            <td width="130px">
+                                <b>{{colData[0]}}:</b> 
+                            </td>
+                            <td>
+                                <input type="text" class="input-large" name="{{colData[0]}}" value="{{colData[1]}}">
+                            </td>
+                        </tr>
+                    </table>
+                %end   
+
+                
+
+                <br>
+                <button class="btn" name="updateRow" value="updateRow">Update</button>
+                
+                %if "successfully" in message:
+                    <br> <br><p style="color:green">{{message}}</p> 
+                    
+                %else:
+                    <br> <br><p style="color:red">{{message}}</p>      
+                %end
+               
+               </form>
             </div><!--/span-->
           </div><!--/row-->
+          
+          
+          
+          
+          
+          
         </div><!--/span-->
       </div><!--/row-->
 
@@ -137,8 +204,8 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="../../static/bootstrap/js/jquery.js"></script>
-    <script src="../../static/bootstrap/js/bootstrap.js"></script>
-    <script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../../../../static/bootstrap/js/jquery.js"></script>
+    <script src="../../../../../static/bootstrap/js/bootstrap.js"></script>
+    <script src="../../../../../static/bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>

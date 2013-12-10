@@ -97,7 +97,7 @@
             defaultF = '<td><input type="text" class="input-small" name="defaultValue'+rowsNum+'"></td>';
             
             isPK = '<td>' +
-                          '<select name="isPK1" class="input-small" >' +
+                          '<select name="isPK'+rowsNum+'" class="input-small" >' +
                               '<option value="True">Yes</option>' +
                               '<option value="False"selected >No</option>' +
                          '</select>' +
@@ -148,6 +148,7 @@
               </li>
               <li><a href="/createdb">Create New Database</a></li>
               <li><a href="/dropdb">Drop Database</a></li>
+              <li><a href="/uploadDB">Upload Database</a></li>
               <li><a href="/SQLiteDatabases/{{choosenDB}}">Download Database</a></li>
             </ul>
           </div><!--/.well -->
@@ -158,11 +159,20 @@
               <li class="active"><a href="/database/{{choosenDB}}/createTable">Create Table</a></li>
               <li><a href="/database/{{choosenDB}}/dropTable">Drop Table</a></li>
                <li><a href="/database/{{choosenDB}}/manageTable/frontPage">Manage Table</a></li>
+               
+               <li class="nav-header">Index</li>
+              <li><a href="/database/{{choosenDB}}/createIndex">Create Index</a></li>
+              <li><a href="/database/{{choosenDB}}/dropIndex">Drop Index</a></li>
+
+              <li class="nav-header">Views</li>
+              <li><a href="/database/{{choosenDB}}/createView">Create View</a></li>
+              <li><a href="/database/{{choosenDB}}/manageView">Manage View</a></li>
+              
               <li class="nav-header">Data</li>
                 <li><a href="/database/{{choosenDB}}/manageData/frontPage">Manage Data</a></li>
               <li><a href="/database/{{choosenDB}}/SQLQuery">SQL query</a></li>
-              <li><a href="#">Export Data</a></li>
-              <li><a href="#">Import Data</a></li>
+              <li><a href="/database/{{choosenDB}}/exportData">Export Data</a></li>
+              <li><a href="/database/{{choosenDB}}/importData">Import Data</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
@@ -170,7 +180,7 @@
         
         <div class="span9">
           <div class="hero-unit" style="background:#eeeeee;padding: 10px;">
-            <center><h2><span style="color:blue;">{{choosenDB}}</span> - Create Table</h2></center>
+            <center><h2>Create Table</h2></center>
             </div>
           <div class="row-fluid">
             <div class="span12">

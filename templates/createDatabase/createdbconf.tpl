@@ -77,6 +77,7 @@
                 </li>
                 <li class="active"><a href="/createdb">Create New Database</a></li>
               <li><a href="/dropdb">Drop Database</a></li>
+              <li><a href="/uploadDB">Upload Database</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
@@ -88,7 +89,11 @@
             </div>
           <div class="row-fluid">
             <div class="span12">
-              {{message}}
+                % if "Error" in message:
+                    <p style="color:red;">{{message}}<p>
+                %else:
+                    <p>{{message}}<p>
+                %end
                   
               
             </div><!--/span-->
