@@ -141,7 +141,7 @@
               
               <li class="nav-header">Index</li>
               <li class="active"><a href="/database/{{choosenDB}}/createIndex">Create Index</a></li>
-              <li><a href="/database/{{choosenDB}}/dropIndex">Drop Index</a></li
+              <li><a href="/database/{{choosenDB}}/dropIndex">Drop Index</a></li>
 
               <li class="nav-header">Views</li>
               <li><a href="/database/{{choosenDB}}/createView">Create View</a></li>

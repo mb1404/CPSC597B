@@ -307,9 +307,18 @@ def manageData(choosenDB,tableName):
     tablesList = t1.getTablesNames();
     dbNames = dbmanager.getDatabaseNames();
     tableColNames = table1.getColNames()
-    tableData = table1.getData();
     
-    output = template('./templates/manageData/manageData',dbNames=dbNames,choosenDB=choosenDB,tablesList=tablesList,tableName=tableName,message=message,tableColNames=tableColNames,tableData=tableData)
+    pageNo = request.GET.get('pageNo','').strip()
+    if pageNo:
+        pageNo = int(pageNo)
+        tableData = table1.getData((pageNo-1)*30);
+    else:
+        pageNo = 1
+        tableData = table1.getData(0);
+        
+    noOfPages = (table1.getNumberofPages()/30) + 1
+    
+    output = template('./templates/manageData/manageData',dbNames=dbNames,choosenDB=choosenDB,tablesList=tablesList,tableName=tableName,message=message,tableColNames=tableColNames,tableData=tableData,noOfPages=noOfPages,pageNo=pageNo)
     return output;
     
 #Manage Data - insertRow
@@ -665,4 +674,4 @@ def error404(error):
     
     
 debug(True)
-run(host='0.0.0.0',reloader=True)
+run(host='0.0.0.0',reloader=True,port =8080)

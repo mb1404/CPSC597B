@@ -176,7 +176,7 @@
                                 <td>{{data}}</td>
                             %end
                             <td><a class="btn" href="/database/{{choosenDB}}/manageData/{{tableName}}/editRow/{{rowID}}"> <i class="icon-edit"></i></a></td>
-                            <td><a class="btn" href="?deleteCol={{rowID}}"> <i class="icon-trash"></i></a></td>
+                            <td><a class="btn" href="?deleteCol={{rowID}}&pageNo={{pageNo}}"> <i class="icon-trash"></i></a></td>
                         </tr>
                      %end
                   </tbody>
@@ -188,7 +188,56 @@
             </div><!--/span-->
           </div><!--/row-->
           
+          <center><p>
+              
+          %if pageNo <= 20:
+              %for pNo in range(1,21):
+                    %if pNo <= noOfPages:
+                        %if pageNo == pNo:
+                            {{pNo}}
+                        %else:
+                            <a href="?pageNo={{pNo}}">{{pNo}}</a>
+                        %end
+                        
+                        %if pNo == 20:
+                            <a href="?pageNo={{pageNo+20}}"> <i class="icon-forward"></i> &nbsp;</a>
+                        %end
+                        
+                   %end
+              %end
           
+          %elif pageNo > 20:
+              %for pNo in range(((((pageNo/20))*20) + 1),(((pageNo/20))*20)+20):
+                    %if pNo <= noOfPages:
+                        %if pNo == (((pageNo/20))*20):
+                            <a href="?pageNo={{pageNo-20}}"> <i class="icon-backward"></i> &nbsp;</a>
+                        %end
+
+                        %if pNo == pageNo:
+                            {{pNo}}
+                        
+                        %else:
+                            <a href="?pageNo={{pNo}}">{{pNo}}</a>
+                        %end
+                        
+                        %if pNo == (((pageNo/20))*20)+20 - 1:
+                            %if pageNo+20 < noOfPages:
+                                <a href="?pageNo={{pageNo+20}}"> <i class="icon-forward"></i> &nbsp;</a>
+                            %else:
+                                <a href="?pageNo={{noOfPages}}"> <i class="icon-forward"></i> &nbsp;</a>
+                            %end
+                        %end
+                        
+                        
+                    %end
+                
+              %end
+        %end
+
+          
+          
+          
+          </p> </center>
           
           <br>
           <a href="{{tableName}}/insertRow"><button class="btn" >insert New row</button></a>

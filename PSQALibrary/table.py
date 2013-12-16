@@ -207,13 +207,13 @@ class table:
         
     #get data
     #the data will be represented as list of tuples
-    def getData(self):
+    def getData(self,start):
         global dbName
         global tableName
         conn = sqlite3.connect(dbName)
         c = conn.cursor()
         
-        c.execute("select *,rowid from %s" %(tableName))
+        c.execute("select *,rowid from %s LIMIT 30 OFFSET %s" %(tableName,start))
         data = c.fetchall()
         conn.close()
         return data
@@ -254,10 +254,18 @@ class table:
         c.execute("select * from %s" %(tableName))
         data = c.fetchall()
         data.insert(0,colNames)
+        y=[]
+        for row in data:
+            try:
+                uRow = [i.decode('UTF-8') if isinstance(i, basestring) else i for i in row]
+                y.append(uRow)
+            except Exception as e:
+                pass
+            
         
         with open("./temp/exportFiles/%s.csv" %(tableName), 'wb') as f:
             writer = csv.writer(f)
-            writer.writerows(data)
+            writer.writerows(y)
       
         conn.close()
         
@@ -287,6 +295,19 @@ class table:
                 return insertMessage
         #send sucess message
         return "%d rows were imported successfully" %(norows)
+        
+        
+    #get number of pages
+    def getNumberofPages(self):
+        global dbName
+        global tableName
+        conn = sqlite3.connect(dbName)
+        c = conn.cursor()
+        
+        c.execute("select count(*) from %s" %(tableName))
+        data = c.fetchall()
+        conn.close()
+        return data[0][0]
         
 
 #t1 = table('Chinook2.db','Customer')
